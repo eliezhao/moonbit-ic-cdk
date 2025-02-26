@@ -1,0 +1,18 @@
+{
+  "is-main": true,
+  "import": [
+    {
+      "path": "ic-cdk-moonbit/ic-principal",
+      "alias": "principal"
+    },
+    {
+      "path": "ic-cdk-moonbit/ic0",
+      "alias": "ic0"
+    }
+  ],
+  "link": {
+    "wasm": {
+      "exports": [ "go:canister_update go" ]
+    }
+  }
+}
