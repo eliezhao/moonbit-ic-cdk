@@ -1,22 +1,84 @@
-# MoonBit IC CDK
+![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
+[![Made with MoonBit](https://img.shields.io/badge/Made%20with-MoonBit-blue)](https://www.moonbitlang.com/)
+<p>
+  <img src="assets/logo.png" alt="moonbit-ic-cdk logo" width="1024"/>
+</p>
 
-MoonBit is a programming language toolchain optimized for WebAssembly and designed for cloud and edge computing ￼. It produces significantly smaller WebAssembly binaries than existing solutions, delivering superior runtime and compile-time performance ￼. With a pragmatic, data-oriented design, MoonBit remains simple yet highly efficient ￼.
+> > A MoonBit-powered developer toolkit for building fast, compact, and efficient smart contracts on the Internet Computer.
 
-## Why MoonBit for IC Canister Development?
+# 🌙 moonbit-ic-cdk
 
-Current Canister Development Kits (CDKs) for Internet Computer (IC) development often struggle with WebAssembly compatibility and performance. This is especially true for languages other than Rust: while Rust has robust official support on the IC ￼, many other language CDKs are community-driven and less mature, leading to difficulties in building IC canister-based dApps ￼.
+A lightweight, WebAssembly-native Canister Development Kit (CDK) for building smart contracts on the Internet Computer (ICP) with the MoonBit language.
 
-MoonBit addresses these challenges by being designed specifically for WebAssembly from the ground up. It offers a lightweight, developer-friendly alternative that avoids the overheads other languages face on the IC. Rust is powerful but is known for a steep learning curve in this domain ￼; by contrast, MoonBit’s simplicity can make it easier to learn and use effectively, without sacrificing performance.
+---
 
-## Project Structure
-•	ic-types: Defines core data structures and types for the Internet Computer Protocol (ICP) blockchain ￼, along with related utility tools. (In Development)  
-•	ic-principal: Implements the Principal type – a unique identifier for entities (users, canisters, etc.) on the IC ￼ – which is central to account and identity management in ICP. (In Development)  
-•	ic0: Provides Wasmtime FFI bindings to the IC’s system API, enabling low-level WASM interactions with the blockchain.
+## ✨ Why MoonBit?
 
-Getting Started
+[MoonBit](https://www.moonbitlang.com/) is a programming language and toolchain optimized for WebAssembly (WASM), designed for modern cloud and edge computing. It compiles into compact, high-performance WASM binaries with exceptional compile-time and runtime efficiency.
 
-Coming soon…
+### 🚀 Why MoonBit for ICP Canister Development?
 
-License
+- Existing CDKs for ICP, aside from Rust, are often immature and less performant.
+- MoonBit is built for WebAssembly from the ground up, offering a **developer-friendly** and **lightweight** alternative with **better compatibility** and **easier learning curve** than Rust.
 
-TBD
+---
+
+## 🧱 Project Structure
+
+This repository is a work-in-progress implementation of a MoonBit CDK for the Internet Computer. Current components include:
+
+### 📦 [`ic-types`](ic-types)
+> Core ICP types and utilities  
+Implements ICP primitives like `Nat`, `Number`, `Principal`, `Result`, and `LEB128`.
+
+### 🧬 [`ic-principal`](src/ic-principal)
+> MoonBit version of `ic-principal`  
+Implements the `Principal` type and related utility functions, used for representing identities (users, canisters) on the Internet Computer.
+
+### 🧩 [`ic0`](src/ic0)
+> Wasmtime FFI bindings to the IC system API  
+Enables direct low-level WASM interaction with the Internet Computer.
+
+### 🌉 [`ic0-api-warp`](src/ic0)
+> Higher-level abstraction over `ic0`, inspired by Rust’s `ic-cdk::mod.rs`.
+
+### 🧪 [`example`](src/main)
+> Working canister example written in MoonBit  
+Demonstrates end-to-end deployment and off-chain interaction.
+
+---
+
+## 📈 Project Status
+
+- [x] Phase 1: Support for core ICP types and system API
+  - [x] Support for `ic0` and `ic0-warp` APIs
+  - [x] MoonBit canister example successfully deployed on the Internet Computer
+- [ ] Phase 2: Extend CDK features for management canister api, inter-canister calls, json se/de serialization, etc.
+
+✅ **We are collaborating with the MoonBit core development team to jointly promote ICP adoption in the MoonBit ecosystem.**
+
+---
+
+## ⚙️ Usage
+
+Follow these steps to install the MoonBit compiler, clone the CDK repo, build the example canister, and deploy it on ICP:
+
+```shell
+# install moonbit
+# linux & macOS
+curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+# windows
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+
+# clone the repo
+git clone https://github.com/eliezhao/moonbit-ic-cdk.git
+
+# navigate to the example
+cd moonbit-ic-cdk/src/main
+
+# build with moonbit
+moon build --target wasm --release
+
+# deploy with dfx
+dfx canister --ic install ${your_canister_principal} --wasm target/wasm/release/build/main/main.wasm
+```
