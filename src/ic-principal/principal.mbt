@@ -31,7 +31,7 @@ fn char_at(s: String, i: Int) -> Char {
 }
 
 fn to_upper(s: String) -> String {
-s.to_upper()
+    s.to_upper()
 // let mut r = ""
 // let mut i = 0
 // while i < s.length() {
@@ -262,6 +262,32 @@ fn to_text(self: Principal) -> String {
     result = result + s
     to_lower(result)
 }
+
+// todo: ic0 import
+/// 返回当前调用的用户的标识 [`Principal`](principal.Principal)。
+///
+/// 等价于 Internet Computer 中 `ic_cdk::api::caller()`，返回当前调用者的 Principal ID。
+// pub func caller() -> principal.Principal {
+// // 获取调用者 Principal 的字节长度
+// let size = ic0.msg_caller_size()
+// // 分配字节缓冲区存储 Principal
+// let bytes = bytes.Bytes.init(size, func(_i: Int) -> byte.Byte { 0.to_byte() })
+// // 将调用者 Principal 的字节复制到缓冲区
+// ic0.msg_caller_copy(bytes, 0.to_int(), size)
+// // 从字节创建 Principal 对象并返回
+// principal.Principal.from_bytes(bytes)
+// }
+//
+// /// 返回当前 Canister 自身的标识 [`Principal`](principal.Principal)。
+// ///
+// /// 等价于 `ic_cdk::api::id()`，获取当前 Canister 的 Principal ID。
+// pub func id() -> principal.Principal {
+// let size = ic0.canister_self_size()
+// let bytes = bytes.Bytes.init(size, func(_i: Int) -> byte.Byte { 0.to_byte() })
+// ic0.canister_self_copy(bytes, 0.to_int(), size)
+// principal.Principal.from_bytes(bytes)
+// }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // 5. 测试

@@ -98,35 +98,35 @@ ic0.msg_cycles_accept(max_amount.to_int64())
 /// 对应 `ic_cdk::api::msg_cycles_accept128(max_amount: u128)`。
 /// 参数和返回值使用 [`BigInt`](BigInt) 表示，确保完整的 128 位精度。
 pub fn msg_cycles_accept128(max_amount: BigInt) -> BigInt {
-// 将 BigInt 拆分为高64位和低64位
-// 构造 16 字节大端序表示
-let input_bytes = max_amount.to_octets(16)
-let high_bytes = bytes.Bytes.init(8, fn(i: Int) -> byte.Byte {
-input_bytes[i]
-})
-let low_bytes  = bytes.Bytes.init(8, fn(i: Int) -> byte.Byte {
-input_bytes[i + 8]
-})
-// 计算高低64位的数值
-var high_val: UInt64 = 0UL
-for b in high_bytes {
-high_val = (high_val << 8) | b.to_int().to_uint64()
-}
-var low_val: UInt64 = 0UL
-for b in low_bytes {
-low_val = (low_val << 8) | b.to_int().to_uint64()
-}
-let high_i64 = high_val.to_int64()
-let low_i64 = low_val.to_int64()
-// 准备结果缓冲区
-let result_buf = bytes.Bytes.init(16, fn(_i: Int) -> byte.Byte { 0.to_byte() })
-// 调用系统API接受cycles，将实际接受量写入缓冲区（小端序）
-ic0.msg_cycles_accept128(high_i64, low_i64, result_buf)
-// 转换结果为 BigInt
-let be_bytes = bytes.Bytes.init(16, fn(i: Int) -> byte.Byte {
-result_buf[(15 - i).to_int()]
-})
-BigInt.from_octets(be_bytes)
+    // 将 BigInt 拆分为高64位和低64位
+    // 构造 16 字节大端序表示
+    let input_bytes = max_amount.to_octets(16)
+    let high_bytes = bytes.Bytes.init(8, fn(i: Int) -> byte.Byte {
+    input_bytes[i]
+    })
+    let low_bytes  = bytes.Bytes.init(8, fn(i: Int) -> byte.Byte {
+    input_bytes[i + 8]
+    })
+    // 计算高低64位的数值
+    var high_val: UInt64 = 0UL
+    for b in high_bytes {
+    high_val = (high_val << 8) | b.to_int().to_uint64()
+    }
+    var low_val: UInt64 = 0UL
+    for b in low_bytes {
+    low_val = (low_val << 8) | b.to_int().to_uint64()
+    }
+    let high_i64 = high_val.to_int64()
+    let low_i64 = low_val.to_int64()
+    // 准备结果缓冲区
+    let result_buf = bytes.Bytes.init(16, fn(_i: Int) -> byte.Byte { 0.to_byte() })
+    // 调用系统API接受cycles，将实际接受量写入缓冲区（小端序）
+    ic0.msg_cycles_accept128(high_i64, low_i64, result_buf)
+    // 转换结果为 BigInt
+    let be_bytes = bytes.Bytes.init(16, fn(i: Int) -> byte.Byte {
+    result_buf[(15 - i).to_int()]
+    })
+    BigInt.from_octets(be_bytes)
 }
 
 /// 获取当前查询调用的认证数据证书。
@@ -243,7 +243,7 @@ buf
 /// 对应 `ic_cdk::api::stable::stable_write(offset, data)`。
 /// 将字节序列写入稳定内存指定偏移处。
 pub fn stable_write(offset: UInt, data: bytes.Bytes) -> () {
-ic0.stable_write(offset.to_int(), data, 0.to_int(), data.length().to_int())
+    ic0.stable_write(offset.to_int(), data, 0.to_int(), data.length().to_int())
 }
 
 /// 返回稳定内存大小（页数，64位）。

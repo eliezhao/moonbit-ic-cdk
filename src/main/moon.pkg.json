@@ -12,7 +12,12 @@
   ],
   "link": {
     "wasm": {
-      "exports": [ "go:canister_update go" ]
+      "exports": [
+        "api_print:canister_query api_print",
+        "print:canister_update print",
+        "instruction_counter:canister_update instruction_counter",
+        "trap_test:canister_update trap_test"
+      ]
     }
   }
 }
