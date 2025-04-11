@@ -1,4 +1,3 @@
-// 还差在canister里面跑起来
 fn main {}
 
 // 获取FixedArray的头指针，前8 bytes是gc头
@@ -17,7 +16,7 @@ pub fn print() -> Unit{
     let buffer_ptr = getptr(msg_buffer)
     @ic0.msg_arg_data_copy(buffer_ptr, 0, msg_size)
 
-    // represent: moonbit cdk
+    // represent: moonbitcdk
     let s : FixedArray[Int] = FixedArray::from_array([109, 111, 111, 110, 98, 105, 116, 99, 100, 107])
     let ptr = getptr(s)
     @ic0.debug_print(ptr, 40)
