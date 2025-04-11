@@ -11,9 +11,9 @@ fn encode_nat(val : Int) -> Bytes! {
     fail!("encode_nat: val must be non-negative")
   }
   let mut result = Bytes::new()
-  var current = val
+  let mut current = val
   loop {
-    var byte = (current & 0x7f).to_int() // 取低7位
+    let mut byte = (current & 0x7f).to_int() // 取低7位
     current = current >> 7
     if current != 0 {
       // 还有更多数据
@@ -28,9 +28,9 @@ fn encode_nat(val : Int) -> Bytes! {
 
 /// decode_nat：从LEB128格式的Bytes解码出非负整数
 fn decode_nat(data : Bytes) -> Int! {
-  var result = 0
-  var shift = 0
-  var i = 0
+  let mut result = 0
+  let mut shift = 0
+  let mut i = 0
   while i < data.length() {
     let byte = data[i].to_int()
     i = i + 1
@@ -55,9 +55,9 @@ fn decode_nat(data : Bytes) -> Int! {
 /// encode_int：将有符号整数val以LEB128格式编码到Bytes中
 fn encode_int(val : Int) -> Bytes! {
   let mut result = Bytes::new()
-  var current = val
+  let mut current = val
   loop {
-    var byte = (current & 0xff).to_int()
+    let mut byte = (current & 0xff).to_int()
     current = current >> 6
     let done = (current == 0 || current == -1)
     if done {
@@ -75,11 +75,11 @@ fn encode_int(val : Int) -> Bytes! {
 
 /// decode_int：从LEB128格式的Bytes解码出有符号整数
 fn decode_int(data : Bytes) -> Int! {
-  var result = 0
-  var shift = 0
+  let mut result = 0
+  let mut shift = 0
   let size = 128
-  var i = 0
-  var byte = 0
+  let mut i = 0
+  let mut byte = 0
   while i < data.length() {
     let b = data[i].to_int()
     i = i + 1
