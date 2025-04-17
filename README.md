@@ -4,7 +4,7 @@
   <img src="assets/logo.png" alt="moonbit-ic-cdk logo" width="1024"/>
 </p>
 
-> > A MoonBit-powered developer toolkit for building fast, compact, and efficient smart contracts on the Internet Computer.
+> A MoonBit-powered developer toolkit for building fast, compact, and efficient smart contracts on the Internet Computer.
 
 # 🌙 moonbit-ic-cdk
 
@@ -59,6 +59,30 @@ Demonstrates end-to-end deployment and off-chain interaction.
 
 ---
 
+## 🛣️ Roadmap
+
+### ⏳ Next 1–3 months
+
+1. **JSON serialization support**  
+   JSON will become the default serialization format for canister argument and return value handling, removing the need for developers to manually encode or decode data.
+
+2. **Enhancements to `ic-types-moonbit`**  
+   We will expand support for all Internet Computer–specific types and provide better debugging utilities.
+
+3. **Improved support for `http_request` and candid types**  
+   Moonbit-ic-cdk will prioritize features necessary for deploying canisters as websites, starting with better candid type support for the `http_request` endpoint.
+
+4. **Async support for canister-to-canister calls**  
+   If MoonBit adds async/await primitives, we will extend the CDK to support asynchronous canister calls between MoonBit canisters.
+
+### 🔮 Future Plans (awaiting async support)
+
+1. Support for **Management Canister API**
+2. A **fully-featured CDK API** for stable memory, traps, cycles, and certified data
+3. A native **Candid parser and encoder/decoder** implementation in MoonBit
+
+---
+
 ## ⚙️ Usage
 
 Follow these steps to install the MoonBit compiler, clone the CDK repo, build the example canister, and deploy it on ICP:
@@ -81,4 +105,3 @@ moon build --target wasm --release
 
 # deploy with dfx
 dfx canister --ic install ${your_canister_principal} --wasm target/wasm/release/build/main/main.wasm
-```
