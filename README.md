@@ -51,35 +51,60 @@ Demonstrates end-to-end deployment and off-chain interaction.
 ## 📈 Project Status
 
 - [x] Phase 1: Support for core ICP types and system API
-  - [x] Support for `ic0` and `ic0-warp` APIs
-  - [x] MoonBit canister example successfully deployed on the Internet Computer
+    - [x] Support for `ic0` and `ic0-warp` APIs
+    - [x] MoonBit canister example successfully deployed on the Internet Computer
 - [ ] Phase 2: Extend CDK features for management canister api, inter-canister calls, json se/de serialization, etc.
 
 ✅ **We are collaborating with the MoonBit core development team to jointly promote ICP adoption in the MoonBit ecosystem.**
 
 ---
 
+## 🚧 Work in Progress
+
+Currently under active development:
+
+- **candid-moonbit**: Building a Candid serialization/deserialization system in MoonBit.
+- **leb128-moonbit**: Implementing LEB128 encoding and decoding support for integer types.
+
+---
+
 ## 🛣️ Roadmap
 
-### ⏳ Next 1–3 months
+### ⏳ Next 1–3 Months (High Priority)
 
-1. **JSON serialization support**  
-   JSON will become the default serialization format for canister argument and return value handling, removing the need for developers to manually encode or decode data.
+The top development focus is completing **candid-moonbit**, an essential part of the `ic-moonbit-cdk` ecosystem:
 
-2. **Enhancements to `ic-types-moonbit`**  
-   We will expand support for all Internet Computer–specific types and provide better debugging utilities.
+- [ ] **LEB128 encode/decode**  
+  Develop `leb128-moonbit` to handle Candid-compliant integer serialization.
 
-3. **Improved support for `http_request` and candid types**  
-   Moonbit-ic-cdk will prioritize features necessary for deploying canisters as websites, starting with better candid type support for the `http_request` endpoint.
+- [ ] **Basic Candid types mapping and se/de implementation**  
+  Map Candid primitive types to MoonBit types and implement corresponding serialization/deserialization.
 
-4. **Async support for canister-to-canister calls**  
-   If MoonBit adds async/await primitives, we will extend the CDK to support asynchronous canister calls between MoonBit canisters.
+- [ ] **Serialization/deserialization for core types**  
+  Implement se/de for types like `number`, `principal`, and `result`.
 
-### 🔮 Future Plans (awaiting async support)
+- [ ] **Candid IDL Builder**  
+  Build type serializer and value serializer generators for Candid interface description.
 
-1. Support for **Management Canister API**
-2. A **fully-featured CDK API** for stable memory, traps, cycles, and certified data
-3. A native **Candid parser and encoder/decoder** implementation in MoonBit
+- [ ] **Encapsulation of `http_request`, `http_response`, and storage APIs**  
+  Simplify building web service canisters with high-level HTTP and storage interfaces.
+
+---
+
+### 🔮 Future Feature Plans (Post V2)
+
+- [ ] **Further enhancements to `ic-types-moonbit`**
+
+- [ ] **Async support for canister-to-canister calls**  
+  Implement asynchronous messaging if MoonBit introduces async/await primitives.
+
+- [ ] **Management Canister API support**  
+  Enable operations like canister creation, upgrade, deletion, and controller management, etc.
+
+- [ ] **Fully-featured CDK API**  
+  Develop high-level abstractions for stable memory, certified data, traps, and cycles, etc.
+
+- [ ] **JSON serialization as default**
 
 ---
 
