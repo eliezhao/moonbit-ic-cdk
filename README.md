@@ -130,3 +130,13 @@ moon build --target wasm --release
 
 # deploy with dfx
 dfx canister --ic install ${your_canister_principal} --wasm target/wasm/release/build/main/main.wasm
+```
+
+---
+
+## 🌟 Community & Recognition
+
+- 📚 `ic-moonbit-cdk` has been officially included in the [awesome-internet-computer](https://github.com/dfinity/awesome-internet-computer) curated list by DFINITY.
+- 💬 Join the discussion on the [DFINITY Developer Forum](https://forum.dfinity.org/t/moonbit-ic-cdk-a-moonbit-powered-canister-development-kit-for-icp/43684/9) and share your feedback or ideas!
+
+We welcome contributions, suggestions, and collaboration from the Internet Computer community!
