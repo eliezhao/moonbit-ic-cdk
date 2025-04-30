@@ -1,7 +1,7 @@
 ![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 [![Made with MoonBit](https://img.shields.io/badge/Made%20with-MoonBit-blue)](https://www.moonbitlang.com/)
 <p>
-  <img src="assets/logo.png" alt="moonbit-ic-cdk logo" width="1024"/>
+  <img src="assets/moonbit-ic-cdk-logo.png" alt="moonbit-ic-cdk logo" width="1024"/>
 </p>
 
 > A MoonBit-powered developer toolkit for building fast, compact, and efficient smart contracts on the Internet Computer.
