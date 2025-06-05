@@ -2,10 +2,6 @@
 const CONTINUATION_BIT: UInt = 0x80; // 1 << 7
 const SIGN_BIT: UInt = 0x40;         // 1 << 6
 
-fn low_bits_of_byte(b: UInt) -> UInt {
-	b & 0x7F
-}
-
 fn unsigned(bytes: Bytes) -> UInt!String {
 	let mut result: UInt = 0;
 	let mut shift: UInt = 0;
@@ -13,6 +9,7 @@ fn unsigned(bytes: Bytes) -> UInt!String {
 
 	while i < bytes.length() {
 	  let byte = bytes[i].to_int();
+	  // todo: 这里没有
 	  if shift == 63 && byte != 0x00 && byte != 0x01 {
 	    return raise("Unsigned LEB128 overflow");
 	  }
@@ -54,3 +51,11 @@ fn signed(bytes: Bytes) -> Int!String {
 	return result;
 }
 
+fn low_bits_of_byte(b: UInt) -> UInt {
+	b & 0x7F
+}
+
+test "leb128 test" {
+
+
+}
