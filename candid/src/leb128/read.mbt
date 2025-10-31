@@ -1,5 +1,5 @@
-// Constants
-const MAX_BYTES: UInt = 10   // 最多 10 字节
+// Constants are defined in write.mbt
+// Import CONTINUATION_BIT and SIGN_BIT from write.mbt
 
 fn r_unsigned(bytes: Bytes) -> UInt! {
   let mut result: UInt = 0

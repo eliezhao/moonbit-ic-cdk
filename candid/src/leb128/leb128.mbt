@@ -1,12 +1,11 @@
-// Constants for LEB128
-const CONTINUATION_BIT: UInt = 0x80; // 1 << 7 (continuation flag in each byte)
-const SIGN_BIT: UInt       = 0x40; // 1 << 6 (sign bit in last byte for SLEB128)
+// Constants for LEB128 are defined in write.mbt
+// Import them from write.mbt if needed, or remove duplicate definitions here
 
 // Decode an unsigned LEB128 sequence to a UInt64 (up to 64-bit support)
 fn leb128_decode_unsigned(bytes: Bytes) -> UInt64! {
     let mut result: UInt64 = 0;
     let mut shift: UInt = 0;         // shift (in bits) for each group of 7 bits
-    let mut i: UInt = 0;
+    let mut i: Int = 0;
     while i < bytes.length() {
         let byte = bytes[i].to_uint();       // Byte -> UInt (0..255)
         if shift == 63 && byte != 0x00 && byte != 0x01 {
@@ -40,8 +39,8 @@ fn leb128_decode_signed(bytes: Bytes) -> Int64! {
     let mut result: Int64 = 0;
     let mut shift: UInt = 0;
     let size: UInt = 64;              // total bits in target (64-bit)
-    let mut i: UInt = 0;
-    var byte: UInt = 0;
+    let mut i: Int = 0;
+    let mut byte: UInt = 0;
     while i < bytes.length() {
         byte = bytes[i].to_uint();
         if shift == 63 && byte != 0x00 && byte != 0x7F {
@@ -65,17 +64,17 @@ fn leb128_decode_signed(bytes: Bytes) -> Int64! {
     }
     // Sign-extend if the final byte had the sign bit set (for negative numbers)
     if shift < size && (byte & SIGN_BIT) != 0 {
-        result = result | ((-1) << shift.to_int());
+        result = result | ((-1).to_int64() << shift.to_int());
     }
     return result;
 }
 
 // Encode an unsigned integer (UInt64) into LEB128 byte sequence
 fn leb128_encode_unsigned(val: UInt64) -> Bytes {
-    var value = val;
+    let mut value = val;
     let buf = @buffer.new();
-    loop {   // generate 7-bit groups
-        var byte: UInt64 = value & 0x7F;       // take 7 bits
+    for {   // generate 7-bit groups
+        let mut byte: UInt64 = value & 0x7F;       // take 7 bits
         value = value >> 7;
         if value != 0 {
             byte = byte | CONTINUATION_BIT.to_uint64();   // set continuation flag if more bits
@@ -90,10 +89,10 @@ fn leb128_encode_unsigned(val: UInt64) -> Bytes {
 
 // Encode a signed integer (Int64) into LEB128 byte sequence
 fn leb128_encode_signed(val: Int64) -> Bytes {
-    var value = val;
+    let mut value = val;
     let buf = @buffer.new();
-    loop {
-        var byte = (value & 0xFF).to_int();    // take 8 bits (will mask to 7 later)
+    for {
+        let mut byte = (value & 0xFF).to_int();    // take 8 bits (will mask to 7 later)
         value = value >> 6;   // arithmetic shift by 6
         let done = (value == 0 || value == -1);
         if done {
