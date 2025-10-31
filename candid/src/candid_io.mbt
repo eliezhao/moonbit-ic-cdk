@@ -1,21 +1,5 @@
 // Import the LEB128 helpers and type definitions
 
-// example usage:
-// Example usage: If we want to encode a Result<Int, Text> (i.e. Result<Int, String] in MoonBit) where Int is a 32-bit integer and Text is a string:
-// let r: Result[Int, String] = Ok(42);
-// let bytes = encode_result[Int, String](r, 
-    // fn(v: Int) -> Bytes { encode_int32(v) },         // use 32-bit int encoder
-    // fn(e: String) -> Bytes { encode_text(e) }
-// );
-// `bytes` now holds the Candid binary encoding of an Ok(42) value of type `Result<int32, text>`
-
-// Decoding it back:
-// let decoded: Result[Int, String] = decode_result[Int, String](bytes,
-//     fn(b: Bytes) -> Int! { decode_int32(b) },
-//     fn(b: Bytes) -> String! { decode_text(b) }
-// )!;
-
-
 import "leb128/leb128.mbt"
 import "candid_types.mbt"
 
@@ -54,7 +38,6 @@ fn encode_int16(val: Int16) -> Bytes {
     buf.write_byte(((val >> 8) & 0xFF).to_byte());
     buf.to_bytes()
 }
-// (Similarly, encode_int64 would output 8 bytes little-endian, but we typically use leb128 for generic int unless the type is specifically int64.)
 
 fn encode_nat32(val: UInt) -> Bytes {
     // 32-bit unsigned
@@ -72,15 +55,15 @@ fn encode_nat16(val: UInt16) -> Bytes {
     buf.to_bytes()
 }
 
-// Float encoding (IEEE-754). We'll assume MoonBit Float/Double can be bit-cast or written via buffer.
+// Float encoding (IEEE-754).
 fn encode_float32(f: Float) -> Bytes {
     let buf = @buffer.new();
-    buf.write_float(f);    // (Assuming buffer has method to write 32-bit float in LE)
+    buf.write_float(f);   
     buf.to_bytes()
 }
 fn encode_float64(d: Double) -> Bytes {
     let buf = @buffer.new();
-    buf.write_double(d);   // (Assuming buffer can write 64-bit double in LE)
+    buf.write_double(d);
     buf.to_bytes()
 }
 
@@ -251,8 +234,6 @@ fn decode_result[T, E](data: Bytes, decode_t: fn(Bytes) -> T!, decode_e: fn(Byte
 // Encode TYPE_PRINCIPAL as signed LEB128
 fn encode_type_principal() -> Bytes {
     // TYPE_PRINCIPAL = 0x68 = -24 in signed LEB128
-    // -24 in signed LEB128: -24 = 0xE8, but we need to encode it as signed
-    // Actually, 0x68 is already the byte representation
     [TYPE_PRINCIPAL].to_bytes()
 }
 
@@ -269,7 +250,6 @@ fn encode_type_variant() -> Bytes {
 }
 
 // Encode complete DIDL format with type descriptor for Principal
-// Based on Rust candid output: [68, 73, 68, 76, 0, 1, 104, 1, 29, ...]
 fn encode_didl_principal(p: Principal) -> Bytes {
     let buf = @buffer.new();
     // DIDL header: "DIDL" = [68, 73, 68, 76]
@@ -292,7 +272,6 @@ fn encode_didl_principal(p: Principal) -> Bytes {
 }
 
 // Encode complete DIDL format with type descriptor for Nat
-// Based on Rust candid output: [68, 73, 68, 76, 0, 1, 125, 210, 133, 216, 204, 4]
 fn encode_didl_nat(n: UInt64) -> Bytes {
     let buf = @buffer.new();
     // DIDL header: "DIDL" = [68, 73, 68, 76]
@@ -315,9 +294,6 @@ fn encode_didl_nat(n: UInt64) -> Bytes {
 }
 
 // Encode complete DIDL format with type descriptor for Result<T, E>
-// Based on Rust candid output: [68, 73, 68, 76, 1, 107, 2, 188, 138, 1, 120, 197, 254, 210, 1, 113, 1, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0]
-// Analysis: DIDL(4) + type_table_len(1=0x01) + variant_def(1=0x6B) + variant_count(1=0x02) + 
-//           variant_labels_and_types + value_count(1=0x01) + type_ref(1=0x00) + variant_tag(1=0x00) + value_data
 fn encode_didl_result_u64_string(res: Result[UInt64, String]) -> Bytes {
     let buf = @buffer.new();
     // DIDL header: "DIDL" = [68, 73, 68, 76]
@@ -331,25 +307,16 @@ fn encode_didl_result_u64_string(res: Result[UInt64, String]) -> Bytes {
     buf.write_byte(TYPE_VARIANT); // 0x6B = -21
     // Number of variants: 2 (Ok, Err)
     buf.write_byte(0x02.to_byte());
-    // Variant 0: "Ok" (label is hashed/indexed, Rust uses 0xBC8A = 48266, but we'll encode properly)
-    // In Candid, variant labels are encoded as LEB128 hash or direct index
-    // Rust seems to use hash values. Let's encode: label "Ok" -> 0xBC8A (this is a hash/index)
-    // Actually, looking more carefully: 0xBC 0x8A = two bytes for "Ok" variant identifier
-    // But Candid spec says variant labels should be hashed. Let's try direct approach:
-    // Label as LEB128: "Ok" hash or index
-    let ok_hash_bytes = leb128_encode_unsigned(0xBC8A.to_uint64()); // Hash for "Ok"
+    // Variant 0: "Ok"
+    let ok_hash_bytes = leb128_encode_unsigned(0xBC8A.to_uint64());
     buf.write_bytes(ok_hash_bytes);
-    // Ok variant type: TYPE_NAT64 = 0x78 (or maybe TYPE_NAT = 0x7D?)
-    // Looking at Rust: after 0xBC8A we have 0x01, 0x78
-    // 0x01 might be a flag, 0x78 = TYPE_NAT64
-    // But we want nat (u64), so let's use TYPE_NAT64 = 0x78
-    buf.write_byte(0x01.to_byte()); // Some flag?
+    buf.write_byte(0x01.to_byte());
     buf.write_byte(0x78.to_byte()); // TYPE_NAT64 for u64
     // Variant 1: "Err" 
-    let err_hash_bytes = leb128_encode_unsigned(0xC7FE.to_uint64()); // Hash for "Err" from Rust output
+    let err_hash_bytes = leb128_encode_unsigned(0xC7FE.to_uint64());
     buf.write_bytes(err_hash_bytes);
-    buf.write_byte(0xD2.to_byte()); // Some encoding for Err variant
-    buf.write_byte(0x01.to_byte()); // Flag?
+    buf.write_byte(0xD2.to_byte());
+    buf.write_byte(0x01.to_byte());
     buf.write_byte(0x71.to_byte()); // TYPE_TEXT
     // Number of values: 1
     buf.write_byte(0x01.to_byte());
@@ -359,10 +326,6 @@ fn encode_didl_result_u64_string(res: Result[UInt64, String]) -> Bytes {
     match res {
         Ok(v) => {
             buf.write_byte(0x00.to_byte()); // Ok variant tag
-            // Rust encodes u64 as 8 bytes little-endian for Result<u64, String>
-            // But looking at output: [0, 0, 42, 0, 0, 0, 0, 0, 0, 0] - this is 10 bytes?
-            // Actually: 0, 0, 42, 0, 0, 0, 0, 0, 0, 0 = variant tag(1) + u64(8) + padding(1)?
-            // Let's use nat64 encoding (8 bytes little-endian)
             let nat64_bytes = encode_nat64_le(v);
             buf.write_bytes(nat64_bytes);
         }
@@ -424,23 +387,13 @@ fn decode_didl_result_u64_string(data: Bytes) -> Result[UInt64, String]! {
        data[2].to_uint() != 0x44 || data[3].to_uint() != 0x4C {
         fail!("decode_didl_result: invalid DIDL header")
     }
-    // Skip DIDL header and type descriptors, find the variant tag
-    // Based on Rust encoding, variant tag is after type descriptors
-    // We need to parse the type table to find where data starts
-    // For now, let's use a simpler approach: find the variant tag byte (0x00 or 0x01)
-    // Looking at Rust output: [68, 73, 68, 76, 1, 107, 2, ...]
-    // After parsing type table, we find the variant tag and data
-    // This is complex, so we'll need to parse more carefully
     
     // Find the start of value data by parsing type table
     let mut pos = 4; // After DIDL
     let type_table_len = data[pos].to_uint(); // Type table length
     pos += 1;
     
-    // Skip type table (this is complex, but for our test we know the structure)
-    // For Result, type table is: variant with 2 variants
-    // We'll skip: variant type (1) + variant count (1) + labels + types
-    // Simplified: skip until we find the value count
+    // Skip type table until value count
     while pos < data.length() && data[pos].to_uint() != 0x01 { // value count
         pos += 1
     }
@@ -464,8 +417,6 @@ fn decode_didl_result_u64_string(data: Bytes) -> Result[UInt64, String]! {
     }
 }
 
-// Test cases based on Rust candid results
-// Expected Principal bytes from "ytoqu-ey42w-sb2ul-m7xgn-oc7xo-i4btp-kuxjc-b6pt4-dwdzu-kfqs4-nae"
 let test_principal_bytes: Bytes = [28, 213, 164, 29, 81, 108, 253, 204, 215, 11, 247, 114, 56, 25, 189, 84, 186, 68, 31, 62, 124, 29, 135, 154, 40, 176, 151, 26, 2]
 let rust_encoded_principal: Bytes = [68, 73, 68, 76, 0, 1, 104, 1, 29, 28, 213, 164, 29, 81, 108, 253, 204, 215, 11, 247, 114, 56, 25, 189, 84, 186, 68, 31, 62, 124, 29, 135, 154, 40, 176, 151, 26, 2]
 let rust_encoded_nat: Bytes = [68, 73, 68, 76, 0, 1, 125, 210, 133, 216, 204, 4]

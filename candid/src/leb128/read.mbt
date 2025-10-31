@@ -1,6 +1,3 @@
-// Constants are defined in write.mbt
-// Import CONTINUATION_BIT and SIGN_BIT from write.mbt
-
 fn r_unsigned(bytes: Bytes) -> UInt! {
   let mut result: UInt = 0
   let mut shift: UInt = 0

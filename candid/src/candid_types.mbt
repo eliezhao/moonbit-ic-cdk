@@ -1,4 +1,3 @@
-// Candid type codes (as per Candid specification) [oai_citation:21‡raw.githubusercontent.com](https://raw.githubusercontent.com/NatLabs/serde/master/src/Candid/Types.mo#:~:text=types%20Null%20%3A%20Nat8%20%3D,):
 const TYPE_NULL      : Byte = b'\x7F'; // -1 in signed LEB128
 const TYPE_BOOL      : Byte = b'\x7E'; // -2
 const TYPE_NAT       : Byte = b'\x7D'; // -3
@@ -34,11 +33,9 @@ impl Principal {
     }
     // (Optional) Construct from textual representation (e.g. "aaaaa-aa")
     static fn from_text(text: String) -> Principal! {
-        // TODO: Implement base32 decode and CRC check as per IC principal spec.
         fail!("Principal.from_text not implemented")
     }
     fn to_text(&self) -> String! {
-        // TODO: Implement encoding to textual format
         fail!("Principal.to_text not implemented")
     }
 }

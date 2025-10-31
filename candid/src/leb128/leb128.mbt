@@ -1,6 +1,3 @@
-// Constants for LEB128 are defined in write.mbt
-// Import them from write.mbt if needed, or remove duplicate definitions here
-
 // Decode an unsigned LEB128 sequence to a UInt64 (up to 64-bit support)
 fn leb128_decode_unsigned(bytes: Bytes) -> UInt64! {
     let mut result: UInt64 = 0;
@@ -26,7 +23,7 @@ fn leb128_decode_unsigned(bytes: Bytes) -> UInt64! {
         }
         shift += 7;
         i += 1;
-    } else {  // 'while' loop optional else: if loop exits normally (no return/break)
+    } else { 
         fail!("Unexpected end of LEB128 input");
     }
 }
