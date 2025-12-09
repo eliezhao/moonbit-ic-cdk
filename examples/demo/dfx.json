@@ -3,7 +3,7 @@
       "demo": {
         "type": "custom",
         "candid": "demo.did",
-        "wasm": "../target/wasm/release/build/demo/demo.wasm"
+        "wasm": "../../target/wasm/release/build/examples/demo/demo.wasm"
       }
     },
     "defaults": {
