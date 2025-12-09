@@ -1,0 +1,9 @@
+{
+  "is-main": true,
+  "import": [
+    {
+      "path": "username/moonbit_ic_cdk",
+      "alias": "lib"
+    }
+  ]
+}

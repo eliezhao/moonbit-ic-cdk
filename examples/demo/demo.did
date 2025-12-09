@@ -1,0 +1,23 @@
+type HttpRequest = record {
+  url : text;
+  method : text;
+  body : blob;
+  headers : vec record { text; text };
+};
+
+type HttpResponse = record {
+  body : blob;
+  headers : vec record { text; text };
+  upgrade : opt bool;
+  status_code : nat16;
+};
+
+service : {
+  "print": (blob) -> (blob);
+  "api_print": () -> (blob);
+  "trap_test": () -> ();
+  "instruction_counter": () -> (blob);
+  "get_caller": () -> (principal);
+  "get_caller_text": () -> (text);
+  "http_request": (HttpRequest) -> (HttpResponse) query;
+}

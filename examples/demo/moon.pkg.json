@@ -1,0 +1,19 @@
+{
+  "is_main": true,
+  "import": {
+    "username/moonbit_ic_cdk": "ic_cdk"
+  },
+  "link": {
+    "wasm": {
+      "exports": [
+        "get_caller:canister_query get_caller",
+        "get_caller_text:canister_query get_caller_text",
+        "http_request:canister_query http_request",
+        "api_print:canister_query api_print",
+        "print:canister_update print",
+        "instruction_counter:canister_update instruction_counter",
+        "trap_test:canister_update trap_test"
+      ]
+    }
+  }
+}

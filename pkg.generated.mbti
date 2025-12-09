@@ -1,0 +1,322 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "username/moonbit_ic_cdk"
+
+import(
+  "moonbitlang/core/buffer"
+)
+
+// Values
+pub const TYPE_BOOL : Int64 = -2
+
+pub const TYPE_EMPTY : Int64 = -17
+
+pub const TYPE_FLOAT32 : Int64 = -13
+
+pub const TYPE_FLOAT64 : Int64 = -14
+
+pub const TYPE_FUNC : Int64 = -22
+
+pub const TYPE_INT : Int64 = -4
+
+pub const TYPE_INT16 : Int64 = -10
+
+pub const TYPE_INT32 : Int64 = -11
+
+pub const TYPE_INT64 : Int64 = -12
+
+pub const TYPE_INT8 : Int64 = -9
+
+pub const TYPE_NAT : Int64 = -3
+
+pub const TYPE_NAT16 : Int64 = -6
+
+pub const TYPE_NAT32 : Int64 = -7
+
+pub const TYPE_NAT64 : Int64 = -8
+
+pub const TYPE_NAT8 : Int64 = -5
+
+pub const TYPE_NULL : Int64 = -1
+
+pub const TYPE_OPT : Int64 = -18
+
+pub const TYPE_PRINCIPAL : Int64 = -24
+
+pub const TYPE_RECORD : Int64 = -20
+
+pub const TYPE_RESERVED : Int64 = -16
+
+pub const TYPE_SERVICE : Int64 = -23
+
+pub const TYPE_TEXT : Int64 = -15
+
+pub const TYPE_VARIANT : Int64 = -21
+
+pub const TYPE_VEC : Int64 = -19
+
+pub fn accept_message() -> Unit
+
+pub fn base32_decode(String) -> Bytes raise
+
+pub fn base32_encode(Bytes) -> String
+
+pub fn bytes_to_uint_be(Bytes) -> UInt
+
+pub fn call_cycles_add(Int64) -> Unit
+
+pub fn call_cycles_add128(Int64, Int64) -> Unit
+
+pub fn call_data_append(Int, Int) -> Unit
+
+pub fn call_new(Int, Int, Int, Int, Int, Int, Int, Int) -> Unit
+
+pub fn call_on_cleanup(Int, Int) -> Unit
+
+pub fn call_perform() -> Int
+
+pub fn canister_cycle_balance() -> Int64
+
+pub fn canister_cycle_balance128(Int) -> Unit
+
+pub fn canister_self_copy(Int, Int, Int) -> Unit
+
+pub fn canister_self_size() -> Int
+
+pub fn canister_status() -> Int
+
+pub fn canister_version() -> Int64
+
+pub fn certified_data_set(Int, Int) -> Unit
+
+pub fn crc32(Bytes) -> UInt
+
+pub fn cycles_burn128(Int64, Int64, Int) -> Unit
+
+pub fn data_certificate_copy(Int, Int, Int) -> Unit
+
+pub fn data_certificate_present() -> Int
+
+pub fn data_certificate_size() -> Int
+
+pub fn debug_print(Int, Int) -> Unit
+
+pub fn decode_http_request(Bytes) -> HttpRequest raise DecodeError
+
+pub fn encode_http_response(HttpResponse) -> Bytes
+
+pub fn[T] encode_one(T, Int64, (Encoder, T) -> Unit) -> Bytes
+
+pub fn get_data_ptr(FixedArray[Byte]) -> Int
+
+pub fn global_timer_set(Int64) -> Int64
+
+pub fn idl_hash(String) -> UInt64
+
+pub fn in_replicated_execution() -> Int
+
+pub fn is_controller(Int, Int) -> Int
+
+pub fn leb128_encode_signed(Int64) -> Bytes
+
+pub fn leb128_encode_unsigned(UInt64) -> Bytes
+
+pub fn msg_arg_data_copy(Int, Int, Int) -> Unit
+
+pub fn msg_arg_data_size() -> Int
+
+pub fn msg_caller_copy(Int, Int, Int) -> Unit
+
+pub fn msg_caller_size() -> Int
+
+pub fn msg_cycles_accept(Int64) -> Int64
+
+pub fn msg_cycles_accept128(Int64, Int64, Int) -> Unit
+
+pub fn msg_cycles_available() -> Int64
+
+pub fn msg_cycles_available128(Int) -> Unit
+
+pub fn msg_cycles_refunded() -> Int64
+
+pub fn msg_cycles_refunded128(Int) -> Unit
+
+pub fn msg_method_name_copy(Int, Int, Int) -> Unit
+
+pub fn msg_method_name_size() -> Int
+
+pub fn msg_reject(Int, Int) -> Unit
+
+pub fn msg_reject_code() -> Int
+
+pub fn msg_reject_msg_copy(Int, Int, Int) -> Unit
+
+pub fn msg_reject_msg_size() -> Int
+
+pub fn msg_reply() -> Unit
+
+pub fn msg_reply_data_append(Int, Int) -> Unit
+
+pub fn performance_counter(Int) -> Int64
+
+pub fn stable64_grow(Int64) -> Int64
+
+pub fn stable64_read(Int, Int64, Int64) -> Unit
+
+pub fn stable64_size() -> Int64
+
+pub fn stable64_write(Int64, Int, Int64) -> Unit
+
+pub fn stable_grow(Int) -> Int
+
+pub fn stable_read(Int, Int, Int) -> Unit
+
+pub fn stable_size() -> Int
+
+pub fn stable_write(Int, Int, Int) -> Unit
+
+pub fn time() -> Int64
+
+pub fn trap(Int, Int) -> Unit
+
+pub fn uint_to_bytes_be(UInt) -> Bytes
+
+pub fn[Src, Dst] unsafe_cast(Src) -> Dst
+
+// Errors
+pub suberror DecodeError String
+
+// Types and methods
+pub struct CallbackFunc {
+  principal : Principal
+  method : String
+}
+pub impl Eq for CallbackFunc
+pub impl Show for CallbackFunc
+
+pub struct Decoder {
+  data : Bytes
+  mut offset : Int
+}
+pub fn Decoder::decode_blob(Self) -> Bytes raise
+pub fn Decoder::decode_bool(Self) -> Bool raise
+pub fn Decoder::decode_float32(Self) -> Double raise
+pub fn Decoder::decode_float64(Self) -> Double raise
+pub fn Decoder::decode_int(Self) -> Int64 raise
+pub fn Decoder::decode_int16(Self) -> Int16 raise
+pub fn Decoder::decode_int32(Self) -> Int raise
+pub fn Decoder::decode_int64(Self) -> Int64 raise
+pub fn Decoder::decode_int8(Self) -> Int raise
+pub fn Decoder::decode_nat(Self) -> UInt64 raise
+pub fn Decoder::decode_nat16(Self) -> UInt16 raise
+pub fn Decoder::decode_nat32(Self) -> UInt raise
+pub fn Decoder::decode_nat64(Self) -> UInt64 raise
+pub fn Decoder::decode_nat8(Self) -> Byte raise
+pub fn Decoder::decode_null(Self) -> Unit
+pub fn[T] Decoder::decode_opt(Self, (Self) -> T raise) -> T? raise
+pub fn Decoder::decode_principal(Self) -> Principal raise
+pub fn Decoder::decode_reserved(Self) -> Unit
+pub fn[T, E] Decoder::decode_result(Self, (Self) -> T raise, (Self) -> E raise) -> Result[T, E] raise
+pub fn Decoder::decode_service(Self) -> Principal raise
+pub fn Decoder::decode_text(Self) -> String raise
+pub fn Decoder::decode_variant_index(Self) -> UInt64 raise
+pub fn[T] Decoder::decode_vec(Self, (Self) -> T raise) -> Array[T] raise
+pub fn Decoder::new(Bytes) -> Self
+pub fn Decoder::read_sleb128(Self) -> Int64 raise
+pub fn Decoder::read_uleb128(Self) -> UInt64 raise
+pub fn Decoder::skip_type_table(Self) -> Unit raise
+
+pub struct Encoder {
+  buf : @buffer.Buffer
+}
+pub fn Encoder::encode_blob(Self, Bytes) -> Unit
+pub fn Encoder::encode_bool(Self, Bool) -> Unit
+pub fn Encoder::encode_float32(Self, Double) -> Unit
+pub fn Encoder::encode_float64(Self, Double) -> Unit
+pub fn Encoder::encode_int(Self, Int64) -> Unit
+pub fn Encoder::encode_int16(Self, Int16) -> Unit
+pub fn Encoder::encode_int32(Self, Int) -> Unit
+pub fn Encoder::encode_int64(Self, Int64) -> Unit
+pub fn Encoder::encode_int8(Self, Int) -> Unit
+pub fn Encoder::encode_nat(Self, UInt64) -> Unit
+pub fn Encoder::encode_nat16(Self, UInt16) -> Unit
+pub fn Encoder::encode_nat32(Self, UInt) -> Unit
+pub fn Encoder::encode_nat64(Self, UInt64) -> Unit
+pub fn Encoder::encode_nat8(Self, Byte) -> Unit
+pub fn Encoder::encode_null(Self) -> Unit
+pub fn[T] Encoder::encode_opt(Self, T?, (Self, T) -> Unit) -> Unit
+pub fn Encoder::encode_principal(Self, Principal) -> Unit
+pub fn Encoder::encode_reserved(Self) -> Unit
+pub fn[T, E] Encoder::encode_result(Self, Result[T, E], (Self, T) -> Unit, (Self, E) -> Unit) -> Unit
+pub fn Encoder::encode_service(Self, Principal) -> Unit
+pub fn Encoder::encode_text(Self, String) -> Unit
+pub fn[T] Encoder::encode_variant(Self, UInt64, T, (Self, T) -> Unit) -> Unit
+pub fn[T] Encoder::encode_vec(Self, Array[T], (Self, T) -> Unit) -> Unit
+pub fn Encoder::new() -> Self
+pub fn Encoder::to_bytes(Self) -> Bytes
+pub fn Encoder::write_byte(Self, Byte) -> Unit
+pub fn Encoder::write_bytes(Self, Bytes) -> Unit
+pub fn Encoder::write_sleb128(Self, Int64) -> Unit
+pub fn Encoder::write_uleb128(Self, UInt64) -> Unit
+
+pub(all) struct HttpRequest {
+  method : String
+  url : String
+  headers : Array[(String, String)]
+  body : Bytes
+}
+pub impl Eq for HttpRequest
+pub impl Show for HttpRequest
+
+pub(all) struct HttpResponse {
+  status_code : UInt16
+  headers : Array[(String, String)]
+  body : Bytes
+  upgrade : Bool?
+  streaming_strategy : StreamingStrategy?
+}
+pub impl Eq for HttpResponse
+pub impl Show for HttpResponse
+
+pub struct IC {
+}
+pub fn IC::caller() -> Principal
+pub fn IC::msg_data_bytes() -> Bytes
+pub fn IC::print(String) -> Unit
+pub fn[T] IC::reply(T, (T) -> Bytes) -> Unit
+pub fn IC::reply_raw(Bytes) -> Unit
+pub fn IC::set_certified_data(Bytes) -> Unit
+pub fn IC::stable_load(Int, Int) -> Bytes
+pub fn IC::stable_store(Int, Bytes) -> Unit
+pub fn IC::trap(String) -> Unit
+
+pub struct Principal {
+  bytes : Bytes
+}
+pub fn Principal::anonymous() -> Self
+pub fn Principal::from_array(Array[Byte]) -> Self
+pub fn Principal::from_bytes(Bytes) -> Self
+pub fn Principal::from_text(String) -> Self raise
+pub fn Principal::management_canister() -> Self
+pub fn Principal::to_text(Self) -> String
+pub impl Eq for Principal
+pub impl Show for Principal
+
+pub struct StreamingCallbackToken {
+  key : String
+  content_encoding : String
+  index : UInt64
+}
+pub impl Eq for StreamingCallbackToken
+pub impl Show for StreamingCallbackToken
+
+pub enum StreamingStrategy {
+  Callback(CallbackFunc, StreamingCallbackToken)
+}
+pub impl Eq for StreamingStrategy
+pub impl Show for StreamingStrategy
+
+// Type aliases
+pub type HeaderField = (String, String)
+
+// Traits
+

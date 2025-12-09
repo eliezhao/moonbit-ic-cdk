@@ -1,0 +1,42 @@
+# MoonBit build artifacts
+target/
+.mooncakes/
+.moonagent/
+
+# Generated interface files (in target directory only)
+# Note: pkg.generated.mbti files in source directories should be tracked
+target/**/*.mbti
+
+# DFX (Internet Computer) build artifacts
+.dfx/
+*.wasm
+*.wasm.gz
+
+# Environment and configuration files
+.env
+.env.local
+.env.*.local
+canister_ids.json
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+uncovered.log
+*.tmp
+*.temp
+
+# Test snapshots (if not needed to be tracked)
+# Uncomment if you don't want to track test snapshots
+# **/*.snap
+
+# Coverage reports
+coverage/
+*.lcov

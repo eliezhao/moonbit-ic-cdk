@@ -1,0 +1,17 @@
+{
+    "canisters": {
+      "demo": {
+        "type": "custom",
+        "candid": "demo.did",
+        "wasm": "../target/wasm/release/build/demo/demo.wasm"
+      }
+    },
+    "defaults": {
+      "build": {
+        "packtool": "",
+        "args": ""
+      }
+    },
+    "output_env_file": ".env",
+    "version": 1
+  }
