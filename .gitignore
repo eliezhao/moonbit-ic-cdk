@@ -40,3 +40,7 @@ uncovered.log
 # Coverage reports
 coverage/
 *.lcov
+
+# Git hooks and GitHub workflows (local only)
+.githooks/
+.github/workflows/
